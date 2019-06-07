@@ -10,23 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace InformationApp.Installers
 {
-    public class DataInstaller : IInstaller
-    {
-        public void InstallServices(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddTransient<IUserStore<ApplicationUser>, UserStore>();
-            services.AddTransient<IRoleStore<ApplicationRole>, RoleStore>();
+    //public class DataInstaller : IInstaller
+    //{
+    //    public void InstallServices(IServiceCollection services, IConfiguration configuration)
+    //    {
+         
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddDefaultTokenProviders();
-
-            //// Add application services.
-            //services.AddTransient<IEmailSender, EmailSender>();
-
-            services.AddMvc();
-           
-
-
-        }
-    }
+    //    }
+    //}
 }

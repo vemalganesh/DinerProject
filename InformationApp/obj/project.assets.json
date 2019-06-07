@@ -13077,11 +13077,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vemal\\source\\repos\\DinerProject\\InformationApp\\InformationApp.csproj",
+      "projectUniqueName": "C:\\Users\\vemal\\source\\repos\\PSDiner_Project\\InformationApp\\InformationApp.csproj",
       "projectName": "InformationApp",
-      "projectPath": "C:\\Users\\vemal\\source\\repos\\DinerProject\\InformationApp\\InformationApp.csproj",
+      "projectPath": "C:\\Users\\vemal\\source\\repos\\PSDiner_Project\\InformationApp\\InformationApp.csproj",
       "packagesPath": "C:\\Users\\vemal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vemal\\source\\repos\\DinerProject\\InformationApp\\obj\\",
+      "outputPath": "C:\\Users\\vemal\\source\\repos\\PSDiner_Project\\InformationApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

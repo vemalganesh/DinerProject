@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using InformationApp.DataAccessLayer;
 using InformationApp.Models;
@@ -21,18 +22,17 @@ namespace InformationApp.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private List<Claim> claims = new List<Claim>();
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-             RoleManager<ApplicationRole> roleManager,
+
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
            _logger = logger;
         }
 
@@ -64,8 +64,17 @@ namespace InformationApp.Controllers
 
                 ApplicationUser signedUser = await _userManager.FindByEmailAsync(model.Email);
                 var result = await _signInManager.PasswordSignInAsync(signedUser.Name, model.Password, model.RememberMe, lockoutOnFailure: false);
+               
                 if (result.Succeeded)
                 {
+                    await _userManager.GetRolesAsync(signedUser);
+                    //foreach (var item in roles)
+                    //{
+                    //    claims.Add(new Claim("Roles", item.Name));
+                    //}
+                    //await _userManager.AddClaimAsync(signedUser, new Claim("test", "Hello"));
+                    //var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(signedUser);
+                    //await _signInManager.RefreshSignInAsync(user);
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -128,13 +137,12 @@ namespace InformationApp.Controllers
                         //role.RoleName = "SuperAdmin";
 
                         await _userManager.AddToRoleAsync(user, RoleName.SuperAdmin);
-                       var users =  await _userManager.GetUsersInRoleAsync(RoleName.SuperAdmin);
+                     
                     }
                     else
                     {
-                        role.RoleName = RoleName.Guest;
-                        await _roleManager.CreateAsync(role);
-                       
+                        await _userManager.AddToRoleAsync(user, RoleName.Guest);
+
                     }
                     _logger.LogInformation("User created a new account with password.");
 

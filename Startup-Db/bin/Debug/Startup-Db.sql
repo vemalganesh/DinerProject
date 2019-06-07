@@ -40,24 +40,101 @@ USE [$(DatabaseName)];
 
 
 GO
-PRINT N'Altering [dbo].[spAddUser]...';
+PRINT N'Altering [dbo].[spAddRole]...';
 
 
 GO
-ALTER PROCEDURE [dbo].[spAddUser]
+ALTER PROCEDURE [dbo].[spAddRole]
+(
+	@UserId nvarchar(128),
+	@RoleName nvarchar(128)
+)
+AS
+Begin
+	DECLARE @RoleId NVARCHAR(128);
+	Select @RoleId =(select Id from Roles where Name like @RoleName)
+
+	Insert into [dbo].[UserRole(RS)](UserId,RoleId)
+    Values (@UserId,@RoleId)  
+END
+GO
+PRINT N'Altering [dbo].[spUpdateUser]...';
+
+
+GO
+ALTER PROCEDURE [dbo].[spUpdateUser]
 (
 	@Id nvarchar(128),
 	@Name nvarchar(128),
 	@Email nvarchar(128),
 	@Password nvarchar(128),
 	@Suspended bit,
-	@EmailVerified  bit
-
+	@EmailVerified  bit,
+	@OutletGroup_Id nvarchar(128)
 )
 AS
 Begin
-	Insert into Users(Id, Name, Email, Password, Suspended, EmailVerified)
-    Values (@Id,@Name,@Email, @Password,@Suspended,@EmailVerified)  
+	Update Users 
+	set Id = @Id,
+	Name = @Name,
+	Email = @Email,
+	Password = @Password,
+	Suspended = @Suspended,
+	EmailVerified = @EmailVerified,
+	OutletGroup_Id = @OutletGroup_Id
+    WHERE Id = @Id
+END
+GO
+PRINT N'Altering [dbo].[spViewRole]...';
+
+
+GO
+ALTER PROCEDURE [dbo].[spViewRole]
+(
+	@UserId nvarchar(128)
+)
+As
+Begin    
+    select *    
+    from Roles where Id in(select RoleId from [UserRole(RS)] where UserId = @UserId);
+End
+GO
+PRINT N'Creating [dbo].[spGetUsersInRole]...';
+
+
+GO
+CREATE PROCEDURE [dbo].[spGetUsersInRole]
+(
+	@RoleName nvarchar(128)
+)
+AS
+	SELECT u.* from Users u INNER JOIN [UserRole(RS)] ur ON ur.UserId = u.Id INNER JOIN 
+	roles r ON r.Id = ur.RoleId WHERE r.Name = @RoleName;
+RETURN 0
+GO
+PRINT N'Creating [dbo].[spIsInRole]...';
+
+
+GO
+CREATE PROCEDURE [dbo].[spIsInRole]
+(
+	@UserId nvarchar(128),
+	@RoleName nvarchar(128)
+)
+AS
+Begin  
+	DECLARE @retVal int
+    SELECT @retVal =  COUNT(*) from [UserRole(RS)] where UserId = @UserId And RoleId in (select Id
+    from Roles where Name = @RoleName);
+
+IF (@retVal > 0)
+BEGIN
+  SELECT 1
+END
+ELSE
+BEGIN
+    SELECT 0
+END 
 END
 GO
 /*
