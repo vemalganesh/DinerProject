@@ -1,0 +1,25 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[Company] (Table)
+     Create
+       [dbo].[UsersAndCompany] (View)
+       [dbo].[spAddCompany] (Procedure)
+       [dbo].[spDeleteCompany] (Procedure)
+       [dbo].[spUpdateCompany] (Procedure)
+       [dbo].[spViewCompany] (Procedure)
+
+** Supporting actions
+     Drop
+       [dbo].[AK_Name] (Unique Constraint)
+     Create
+       [dbo].[AK_Name] (Unique Constraint)

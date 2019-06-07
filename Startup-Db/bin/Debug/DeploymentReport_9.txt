@@ -1,0 +1,24 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[spUpdateUser] (Procedure)
+     Create
+       [dbo].[spAddOutlet] (Procedure)
+       [dbo].[spAddOutletGroup] (Procedure)
+       [dbo].[spDeleteOutlet] (Procedure)
+       [dbo].[spDeleteOutletGroup] (Procedure)
+       [dbo].[spUpdateOutlet] (Procedure)
+       [dbo].[spUpdateOutletGroup] (Procedure)
+       [dbo].[spViewOutlet] (Procedure)
+       [dbo].[spViewOutletGroup] (Procedure)
+
+** Supporting actions

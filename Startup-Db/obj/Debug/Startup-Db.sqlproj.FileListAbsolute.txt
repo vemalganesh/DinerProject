@@ -1,0 +1,9 @@
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\bin\Debug\Startup-Db.dacpac
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\bin\Debug\Startup_Db.dll
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\bin\Debug\Startup_Db.pdb
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\Startup_Db.dll
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\Startup_Db.pdb
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\Model.xml
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\refactor.xml
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\postdeploy.sql
+C:\Users\vemal\source\repos\DinerProject\Startup-Db\obj\Debug\predeploy.sql

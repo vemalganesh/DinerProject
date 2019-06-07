@@ -1,0 +1,29 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Company] (Table)
+       [dbo].[OutletGroup] (Table)
+       [dbo].[Outlets] (Table)
+       [dbo].[Roles] (Table)
+       [dbo].[User] (Table)
+       [dbo].[UserCompany(RS)] (Table)
+       [dbo].[UserRole(RS)] (Table)
+       [dbo].[Fk_OutletGroup_Company_RS] (Foreign Key)
+       [dbo].[FK_Outlet_Group_RS] (Foreign Key)
+       [dbo].[FK_Outlet_CompanyId_RS] (Foreign Key)
+       [dbo].[FK_User_OutletGroup_RS] (Foreign Key)
+       [dbo].[FK_dbo.UserCompanyInfo_dbo.Company_CompanyId] (Foreign Key)
+       [dbo].[FK_dbo.UserCompanyInfo_dbo.Users_UserId] (Foreign Key)
+       [dbo].[FK_dbo.UserRoles(RS)_UserId] (Foreign Key)
+       [dbo].[FK_dbo.UserRoles(RS)_dbo.RoleId] (Foreign Key)
+
+** Supporting actions

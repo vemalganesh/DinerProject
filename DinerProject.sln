@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Startup-Db", "Startup-Db\Startup-Db.sqlproj", "{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InformationApp", "InformationApp\InformationApp.csproj", "{6F35F5BF-37F1-4F0A-9443-B0B0A8086DE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB03D63-7B7B-4F5B-9941-8D039B95A7D9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6F35F5BF-37F1-4F0A-9443-B0B0A8086DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F35F5BF-37F1-4F0A-9443-B0B0A8086DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F35F5BF-37F1-4F0A-9443-B0B0A8086DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F35F5BF-37F1-4F0A-9443-B0B0A8086DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CC20B6E-0590-42F6-8D7A-9DAEA8AE7EB9}
+	EndGlobalSection
+EndGlobal
