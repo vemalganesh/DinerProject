@@ -9,6 +9,11 @@ namespace InformationApp.Models
     public class OutletModel
     {
         public string ID { get; set; }
+
+        public string Company_Id { get; set; }
+
+        public string Group_Id { get; set; }
+
         [Required]
         public string Name { get; set; }
         [Required]
@@ -17,9 +22,7 @@ namespace InformationApp.Models
         public string Address { get; set; }
         [Required]
         public Boolean Suspended { get; set; }
-        [Required]
-        public string Company_Id { get; set; }
-        [Required]
-        public string Group_Id { get; set; }
+     
+       
     }
 }

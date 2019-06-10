@@ -19,7 +19,7 @@ namespace InformationApp.DataAccessLayer
             this.conStr = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public IEnumerable<OutletModel> GetAllOutlet()
+        public IEnumerable<OutletModel> GetAllOutlet(string id)
         {
 
             List<OutletModel> lstOutletModel = new List<OutletModel>();
@@ -28,7 +28,7 @@ namespace InformationApp.DataAccessLayer
             {
                 SqlCommand cmd = new SqlCommand("spViewOutlet", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-
+                cmd.Parameters.AddWithValue("@Company_Id", id);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -62,7 +62,6 @@ namespace InformationApp.DataAccessLayer
                 cmd.Parameters.AddWithValue("@Id", id.ToString());
                 cmd.Parameters.AddWithValue("@Name", OutletModel.Name);
                 cmd.Parameters.AddWithValue("@OutletCode", OutletModel.OutletCode);
-                cmd.Parameters.AddWithValue("@Group_Id", OutletModel.Group_Id);
                 cmd.Parameters.AddWithValue("@Suspended", OutletModel.Suspended);
                 cmd.Parameters.AddWithValue("@Company_Id", OutletModel.Company_Id);
                 cmd.Parameters.AddWithValue("@Address", OutletModel.Address);
@@ -84,9 +83,7 @@ namespace InformationApp.DataAccessLayer
                 cmd.Parameters.AddWithValue("@Id", OutletModel.ID);
                 cmd.Parameters.AddWithValue("@Name", OutletModel.Name);
                 cmd.Parameters.AddWithValue("@OutletCode", OutletModel.OutletCode);
-                cmd.Parameters.AddWithValue("@Group_Id", OutletModel.Group_Id);
                 cmd.Parameters.AddWithValue("@Suspended", OutletModel.Suspended);
-                cmd.Parameters.AddWithValue("@Company_Id", OutletModel.Company_Id);
                 cmd.Parameters.AddWithValue("@Address", OutletModel.Address);
 
                 con.Open();

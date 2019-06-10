@@ -923,12 +923,39 @@ END]]></Value>
 			<Property Name="BodyScript">
 				<Value><![CDATA[
 Begin
+	DECLARE @GroupId NVARCHAR(128);
+	Select @GroupId =(select  OutletGroup_Id from Users where Id in(select UserId from [UserCompany(RS)] where CompanyId like @Company_Id ))
+
 	Insert into Outlets(Id, Name, OutletCode, Address, Suspended, Company_Id,Group_Id)
-    Values (@Id,@Name,@OutletCode, @Address,@Suspended,@Company_Id,@Group_Id)  
+    Values (@Id,@Name,@OutletCode, @Address,@Suspended,@Company_Id,@GroupId)  
 END]]></Value>
 			</Property>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Users]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Users].[OutletGroup_Id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Users].[Id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[UserCompany(RS)]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[UserCompany(RS)].[UserId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[UserCompany(RS)].[CompanyId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spAddOutlet].[@Company_Id]" />
+				</Entry>
 				<Entry>
 					<References Name="[dbo].[Outlets]" />
 				</Entry>
@@ -967,12 +994,6 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[spAddOutlet].[@Suspended]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[spAddOutlet].[@Company_Id]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[spAddOutlet].[@Group_Id]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
@@ -1071,22 +1092,6 @@ END]]></Value>
 						</Relationship>
 					</Element>
 				</Entry>
-				<Entry>
-					<Element Type="SqlSubroutineParameter" Name="[dbo].[spAddOutlet].[@Group_Id]">
-						<Relationship Name="Type">
-							<Entry>
-								<Element Type="SqlTypeSpecifier">
-									<Property Name="Length" Value="128" />
-									<Relationship Name="Type">
-										<Entry>
-											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
-										</Entry>
-									</Relationship>
-								</Element>
-							</Entry>
-						</Relationship>
-					</Element>
-				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
 				<Entry>
@@ -1094,10 +1099,10 @@ END]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="397" />
+				<Property Name="Length" Value="544" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spAddOutlet]&#xD;&#xA;(&#xD;&#xA;&#x9;@Id nvarchar(128),&#xD;&#xA;&#x9;@Name nvarchar(128),&#xD;&#xA;&#x9;@OutletCode nvarchar(128),&#xD;&#xA;&#x9;@Address nvarchar(128),&#xD;&#xA;&#x9;@Suspended bit,&#xD;&#xA;&#x9;@Company_Id  nvarchar(128),&#xD;&#xA;&#x9;@Group_Id nvarchar(128)&#xD;&#xA;)&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spAddOutlet]&#xD;&#xA;(&#xD;&#xA;&#x9;@Id nvarchar(128),&#xD;&#xA;&#x9;@Name nvarchar(128),&#xD;&#xA;&#x9;@OutletCode nvarchar(128),&#xD;&#xA;&#x9;@Address nvarchar(128),&#xD;&#xA;&#x9;@Suspended bit,&#xD;&#xA;&#x9;@Company_Id  nvarchar(128)&#xD;&#xA;)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[spAddOutletGroup]">
@@ -2052,30 +2057,62 @@ END]]></Value>
 		<Element Type="SqlProcedure" Name="[dbo].[spUpdateOutlet]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
-	SELECT @param1, @param2
-RETURN 0]]></Value>
+Begin
+	Update Outlets 
+	set Id = @Id,
+	Name = @Name,
+	OutletCode = @OutletCode,
+	Suspended = @Suspended,
+	Address = @Address
+    WHERE Id = @Id
+END]]></Value>
 			</Property>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
-					<References Name="[dbo].[spUpdateOutlet].[@param1]" />
+					<References Name="[dbo].[Outlets]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[spUpdateOutlet].[@param2]" />
+					<References Name="[dbo].[Outlets].[Id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateOutlet].[@Id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Outlets].[Name]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateOutlet].[@Name]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Outlets].[OutletCode]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateOutlet].[@OutletCode]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Outlets].[Suspended]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateOutlet].[@Suspended]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Outlets].[Address]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateOutlet].[@Address]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
 				<Entry>
-					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@param1]">
-						<Property Name="DefaultExpressionScript">
-							<Value><![CDATA[0]]></Value>
-						</Property>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@Id]">
 						<Relationship Name="Type">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="128" />
 									<Relationship Name="Type">
 										<Entry>
-											<References ExternalSource="BuiltIns" Name="[int]" />
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
 										</Entry>
 									</Relationship>
 								</Element>
@@ -2084,13 +2121,61 @@ RETURN 0]]></Value>
 					</Element>
 				</Entry>
 				<Entry>
-					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@param2]">
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@Name]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="128" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@OutletCode]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="128" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@Address]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="128" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateOutlet].[@Suspended]">
 						<Relationship Name="Type">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
 									<Relationship Name="Type">
 										<Entry>
-											<References ExternalSource="BuiltIns" Name="[int]" />
+											<References ExternalSource="BuiltIns" Name="[bit]" />
 										</Entry>
 									</Relationship>
 								</Element>
@@ -2105,10 +2190,10 @@ RETURN 0]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="112" />
+				<Property Name="Length" Value="322" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spUpdateOutlet]&#xD;&#xA;&#x9;@param1 int = 0,&#xD;&#xA;&#x9;@param2 int&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spUpdateOutlet]&#xD;&#xA;(&#xD;&#xA;&#x9;@Id nvarchar(128),&#xD;&#xA;&#x9;@Name nvarchar(128),&#xD;&#xA;&#x9;@OutletCode nvarchar(128),&#xD;&#xA;&#x9;@Address nvarchar(128),&#xD;&#xA;&#x9;@Suspended bit&#xD;&#xA;)&#xD;&#xA;As" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[spUpdateOutletGroup]">
@@ -2427,13 +2512,37 @@ End]]></Value>
 				<Value><![CDATA[    
 Begin    
     select *    
-    from Outlets
+    from Outlets where Company_Id like @Company_Id
 End]]></Value>
 			</Property>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
 					<References Name="[dbo].[Outlets]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Outlets].[Company_Id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spViewOutlet].[@Company_Id]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spViewOutlet].[@Company_Id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="128" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
 				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
@@ -2442,10 +2551,10 @@ End]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="97" />
+				<Property Name="Length" Value="166" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spViewOutlet]&#xD;&#xA;as" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spViewOutlet]&#xD;&#xA;(&#xD;&#xA;&#x9;@Company_Id  nvarchar(128)&#xD;&#xA;)&#xD;&#xA;as" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[spViewOutletGroup]">

@@ -1,6 +1,18 @@
 ﻿CREATE PROCEDURE [dbo].[spUpdateOutlet]
-	@param1 int = 0,
-	@param2 int
-AS
-	SELECT @param1, @param2
-RETURN 0
+(
+	@Id nvarchar(128),
+	@Name nvarchar(128),
+	@OutletCode nvarchar(128),
+	@Address nvarchar(128),
+	@Suspended bit
+)
+As
+Begin
+	Update Outlets 
+	set Id = @Id,
+	Name = @Name,
+	OutletCode = @OutletCode,
+	Suspended = @Suspended,
+	Address = @Address
+    WHERE Id = @Id
+END

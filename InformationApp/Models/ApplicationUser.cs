@@ -27,5 +27,7 @@ namespace InformationApp.Models
         public bool TwoFactorEnabled { get; set; }
 
         public string OutletGroup_Id { get; set; }
+
+        public List<ApplicationRole> Roles { get; set; }
     }
 }

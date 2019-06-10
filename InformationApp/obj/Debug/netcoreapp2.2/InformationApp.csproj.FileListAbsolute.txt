@@ -86,3 +86,13 @@ C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2
 C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\InformationApp.dll
 C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\InformationApp.pdb
 C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\InformationApp.csproj.CopyComplete
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\Outlet\Create.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\Outlet\Delete.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\Outlet\Details.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\Outlet\Edit.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\Outlet\Index.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\OutletGroup\Create.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\OutletGroup\Delete.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\OutletGroup\Details.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\OutletGroup\Edit.g.cshtml.cs
+C:\Users\vemal\source\repos\PSDiner_Project\InformationApp\obj\Debug\netcoreapp2.2\Razor\Views\OutletGroup\Index.g.cshtml.cs

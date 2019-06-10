@@ -15,19 +15,20 @@ namespace InformationApp.Controllers
     {
         private readonly IConfiguration configuration;
         private OutletDataAccessLayer objOutletModel;
+        private CompanyDataAccesLayer objCompanyModel;
         public OutletController(IConfiguration config)
         {
             this.configuration = config;
             objOutletModel = new OutletDataAccessLayer(configuration);
+            objCompanyModel = new CompanyDataAccesLayer(configuration);
 
         }
         // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-
             List<OutletModel> lstOutletModel = new List<OutletModel>();
-            lstOutletModel = objOutletModel.GetAllOutlet().ToList();
-
+            lstOutletModel = objOutletModel.GetAllOutlet(id).ToList();
+            TempData["CompanyId"] = id;
             return View(lstOutletModel);
         }
 
@@ -42,10 +43,11 @@ namespace InformationApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind] OutletModel OutletModel)
         {
+            OutletModel.Company_Id = TempData["CompanyId"].ToString();
             if (ModelState.IsValid)
             {
                 objOutletModel.AddOutlet(OutletModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = OutletModel.Company_Id });
             }
             return View(OutletModel);
         }
@@ -76,8 +78,9 @@ namespace InformationApp.Controllers
             }
             if (ModelState.IsValid)
             {
+                OutletModel.Company_Id = TempData["CompanyId"].ToString();
                 objOutletModel.UpdateOutlet(OutletModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = OutletModel.Company_Id });
             }
             return View(OutletModel);
         }
@@ -118,8 +121,9 @@ namespace InformationApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(string id)
         {
+            string CompId = TempData["CompanyId"].ToString();
             objOutletModel.DeleteOutlet(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = CompId });
         }
     }
 
