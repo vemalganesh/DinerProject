@@ -24,9 +24,7 @@ namespace InformationApp.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            
-            List<Company> lstCompany = new List<Company>();
-            lstCompany = objcompany.GetAllCompany().ToList();
+            var lstCompany = objcompany.GetAllCompany().ToList();
 
             return View(lstCompany);
         }

@@ -26,6 +26,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+db.lock
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -101,6 +102,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+*.VC.db
 
 # Visual Studio profiler
 *.psess

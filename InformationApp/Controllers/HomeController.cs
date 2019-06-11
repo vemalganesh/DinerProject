@@ -11,17 +11,11 @@ namespace InformationApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IConfiguration configuration;
-
-        public HomeController(IConfiguration config) {
-            this.configuration = config;
-        }
 
         public IActionResult Index()
         {
             //string connstr = configuration.GetConnectionString("DefaultConnection");
 
-            CompanyDataAccesLayer cd = new CompanyDataAccesLayer(configuration); 
             return View();
         }
 

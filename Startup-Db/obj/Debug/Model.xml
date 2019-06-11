@@ -1732,9 +1732,11 @@ END]]></Value>
 		<Element Type="SqlProcedure" Name="[dbo].[spGetUsersInRole]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
+Begin
 	SELECT u.* from Users u INNER JOIN [UserRole(RS)] ur ON ur.UserId = u.Id INNER JOIN 
 	roles r ON r.Id = ur.RoleId WHERE r.Name = @RoleName;
-RETURN 0]]></Value>
+RETURN 0
+End]]></Value>
 			</Property>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
@@ -1790,7 +1792,7 @@ RETURN 0]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="230" />
+				<Property Name="Length" Value="242" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spGetUsersInRole]&#xD;&#xA;(&#xD;&#xA;&#x9;@RoleName nvarchar(128)&#xD;&#xA;)&#xD;&#xA;AS" />

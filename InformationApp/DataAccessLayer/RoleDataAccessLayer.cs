@@ -13,21 +13,45 @@ namespace InformationApp.DataAccessLayer
 {
     public class RoleDataAccessLayer
     {
-        private IConfiguration configuration;
-        private string conStr;
+       
+        private readonly string conStr;
         public RoleDataAccessLayer(IConfiguration configuration)
         {
-            this.configuration = configuration;
+   
             this.conStr = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public List<string> GetAllUserRole(ApplicationRole ApplicationRole)
+        public async Task<IList<string>> GetAllUserRole(ApplicationRole ApplicationRole)
         {
               List<string> rolesList = new List<string>();
             using (SqlConnection con = new SqlConnection(conStr))
             {
-                SqlCommand cmd = new SqlCommand("spViewRole", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("spViewRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", ApplicationRole.UserId);
+                await con.OpenAsync();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    rolesList.Add(rdr["Name"].ToString());
+                }
+                con.Close();
+            }
+            return rolesList.ToList();
+        }
+
+
+        public List<string> GetAllUserRoleController(ApplicationRole ApplicationRole)
+        {
+            List<string> rolesList = new List<string>();
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                SqlCommand cmd = new SqlCommand("spViewRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 cmd.Parameters.AddWithValue("@UserId", ApplicationRole.UserId);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
@@ -37,35 +61,39 @@ namespace InformationApp.DataAccessLayer
                 }
                 con.Close();
             }
-            return rolesList;
+            return rolesList.ToList();
         }
 
 
-        public List<ApplicationUser> GetUsersInRole(string RoleName)
+        public async Task<IList<ApplicationUser>> GetUsersInRole(string RoleName)
         {
             List<ApplicationUser> lstUserModel = new List<ApplicationUser>();
             using (SqlConnection con = new SqlConnection(conStr))
             {
-                SqlCommand cmd = new SqlCommand("spGetUsersInRole", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("spGetUsersInRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 cmd.Parameters.AddWithValue("@RoleName", RoleName);
-                con.Open();
+                await con.OpenAsync();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    ApplicationUser UserModel = new ApplicationUser();
-                    UserModel.ID = rdr["Id"].ToString();
-                    UserModel.Name = rdr["Name"].ToString();
-                    UserModel.Email = rdr["Email"].ToString();
-                    UserModel.Password = rdr["Password"].ToString();
-                    UserModel.EmailVerified = Convert.ToBoolean(rdr["EmailVerified"]);
-                    UserModel.Suspended = Convert.ToBoolean(rdr["Suspended"]);
-                    UserModel.OutletGroup_Id = rdr["OutletGroup_Id"].ToString();
+                    ApplicationUser UserModel = new ApplicationUser
+                    {
+                        ID = rdr["Id"].ToString(),
+                        Name = rdr["Name"].ToString(),
+                        Email = rdr["Email"].ToString(),
+                        Password = rdr["Password"].ToString(),
+                        EmailVerified = Convert.ToBoolean(rdr["EmailVerified"]),
+                        Suspended = Convert.ToBoolean(rdr["Suspended"]),
+                        OutletGroup_Id = rdr["OutletGroup_Id"].ToString()
+                    };
                     lstUserModel.Add(UserModel);
                 }
                 con.Close();
             }
-            return lstUserModel;
+            return lstUserModel.ToList();
         }
 
 
@@ -74,8 +102,10 @@ namespace InformationApp.DataAccessLayer
         {
              using (SqlConnection con = new SqlConnection(conStr))
             {
-                SqlCommand cmd = new SqlCommand("spAddRole", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("spAddRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 cmd.Parameters.AddWithValue("@UserId", ApplicationRole.UserId);
                 cmd.Parameters.AddWithValue("@RoleName", ApplicationRole.RoleName);
@@ -107,7 +137,7 @@ namespace InformationApp.DataAccessLayer
 
 
         //Get the details of a particular employee
-        public ApplicationRole GetRolebyId(string id)
+        public async Task<ApplicationRole> GetRolebyId(string id)
         {
             ApplicationRole ApplicationRole = new ApplicationRole();
 
@@ -116,7 +146,7 @@ namespace InformationApp.DataAccessLayer
                 string sqlQuery = "SELECT * FROM [dbo].[Roles] WHERE Id LIKE '" + id + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
-                con.Open();
+                await con.OpenAsync();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
@@ -129,7 +159,7 @@ namespace InformationApp.DataAccessLayer
         }
 
         //Get the details of a particular employee
-        public ApplicationRole GetRolebyName(string Name)
+        public async Task<ApplicationRole> GetRolebyName(string Name)
         {
             ApplicationRole ApplicationRole = new ApplicationRole();
 
@@ -138,7 +168,7 @@ namespace InformationApp.DataAccessLayer
                 string sqlQuery = "SELECT * FROM [dbo].[Roles] WHERE Name LIKE '" + Name + "'";
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
-                con.Open();
+                await con.OpenAsync();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
@@ -150,37 +180,41 @@ namespace InformationApp.DataAccessLayer
             return ApplicationRole;
         }
 
-        public void DeleteRole(ApplicationRole ApplicationRole)
+        public async Task<IdentityResult> DeleteRole(ApplicationRole ApplicationRole)
         {
 
             using (SqlConnection con = new SqlConnection(conStr))
             {
-                SqlCommand cmd = new SqlCommand("spDeleteRole", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("spDeleteRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 cmd.Parameters.AddWithValue("@UserId", ApplicationRole.UserId);
                 cmd.Parameters.AddWithValue("@RoleName", ApplicationRole.RoleName);
 
-                con.Open();
-                cmd.ExecuteNonQuery();
+                await con.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
                 con.Close();
             }
-
+            return IdentityResult.Success;
         }
 
-        public bool GetIsInRole(ApplicationRole roles)
+        public async Task<bool> GetIsInRole(ApplicationRole roles)
         {
 
             using (SqlConnection con = new SqlConnection(conStr))
             {
                 roles.RoleName = roles.RoleName.ToLower();
-                SqlCommand cmd = new SqlCommand("spIsInRole", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("spIsInRole", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 cmd.Parameters.AddWithValue("@UserId", roles.UserId);
                 cmd.Parameters.AddWithValue("@RoleName", roles.RoleName);
 
-                con.Open();
+                await con.OpenAsync();
                 int result = (int)cmd.ExecuteScalar();
 
                 if (result == 0)

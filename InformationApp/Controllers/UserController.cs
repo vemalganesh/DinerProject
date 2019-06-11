@@ -13,19 +13,19 @@ namespace InformationApp.Models
     public class UserController : Controller
     {
         private readonly IConfiguration configuration;
-        private UserDataAccessLayer objUserModel;
+        private readonly UserDataAccessLayer objUserModel;
+        private readonly RoleDataAccessLayer objRoleModel;
         public UserController(IConfiguration config)
         {
                 this.configuration = config;
                 objUserModel = new UserDataAccessLayer(configuration);
-         
+                objRoleModel = new RoleDataAccessLayer(configuration);
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
 
-            List<ApplicationUser> lstUserModel = new List<ApplicationUser>();
-            lstUserModel = objUserModel.GetAllUser().ToList();
+            var lstUserModel = objUserModel.GetAllUser().ToList();
 
             return View(lstUserModel);
         }
@@ -43,7 +43,7 @@ namespace InformationApp.Models
         {
             if (ModelState.IsValid)
             {
-                objUserModel.AddUser(UserModel);
+                _ = objUserModel.AddUser(UserModel);
                 return RedirectToAction("Index");
             }
             return View(UserModel);
@@ -56,8 +56,20 @@ namespace InformationApp.Models
             {
                 return NotFound();
             }
-            ApplicationUser UserModel = objUserModel.GetUserData(id);
-
+            ApplicationUser UserModel = objUserModel.GetUserDataController(id);
+            ApplicationRole userId = new ApplicationRole
+            {
+                UserId = id
+            };
+            var roles = objRoleModel.GetAllUserRoleController(userId);
+            foreach (var role in roles)
+            {
+                ApplicationRole rolesCount = new ApplicationRole
+                {
+                    RoleName = role
+                };
+                UserModel.Roles.Add(rolesCount);
+            }
             if (UserModel == null)
             {
                 return NotFound();
@@ -88,7 +100,7 @@ namespace InformationApp.Models
             {
                 return NotFound();
             }
-            ApplicationUser UserModel = objUserModel.GetUserData(id);
+            ApplicationUser UserModel = objUserModel.GetUserDataController(id);
 
             if (UserModel == null)
             {
@@ -104,7 +116,7 @@ namespace InformationApp.Models
             {
                 return NotFound();
             }
-            ApplicationUser UserModel = objUserModel.GetUserData(id);
+            ApplicationUser UserModel = objUserModel.GetUserDataController(id);
 
             if (UserModel == null)
             {

@@ -13,7 +13,7 @@ namespace InformationApp.Data
     public class RoleStore : IRoleStore<ApplicationRole>
     {
         private readonly IConfiguration configuration;
-        private RoleDataAccessLayer objRole;
+        private readonly RoleDataAccessLayer objRole;
         public RoleStore(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -31,14 +31,15 @@ namespace InformationApp.Data
         public async Task<IdentityResult> UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return IdentityResult.Success;
+            var result = await objRole.AddRole(role);
+            return result;
         }
 
         public async Task<IdentityResult> DeleteAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            objRole.DeleteRole(role);
+            await objRole.DeleteRole(role);
 
             return IdentityResult.Success;
         }
@@ -73,8 +74,7 @@ namespace InformationApp.Data
         public async Task<ApplicationRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            ApplicationRole roleInfo = new ApplicationRole();
-            roleInfo = objRole.GetRolebyId(roleId);
+            var roleInfo = await objRole.GetRolebyId(roleId);
 
             return roleInfo;
         }
@@ -83,8 +83,7 @@ namespace InformationApp.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            ApplicationRole roleInfo = new ApplicationRole();
-            roleInfo = objRole.GetRolebyName(normalizedRoleName);
+            var roleInfo = await objRole.GetRolebyName(normalizedRoleName);
 
             return roleInfo;
         }

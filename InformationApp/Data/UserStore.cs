@@ -28,15 +28,15 @@ namespace InformationApp.Data
 
                     user.ID = Guid.NewGuid().ToString();
                     user.Email = user.Email.ToLower();
-                    objuser.AddUser(user);
+                    var result = await objuser.AddUser(user);
 
-        return IdentityResult.Success;
+        return result;
     }
 
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password, CancellationToken cancellationToken)
         {
             user.Password = password;
-            objuser.FindUserByPassword(user);
+            await objuser.FindUserByPassword(user);
             return true;
         }
 
@@ -44,16 +44,15 @@ namespace InformationApp.Data
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-            objuser.DeleteUser(user.ID);
-
-            return IdentityResult.Success;
+          var result =  await objuser.DeleteUserManager(user.ID);
+          return result;
     }
 
     public async Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            ApplicationUser user = new ApplicationUser();
-            user = objuser.GetUserData(userId);
+          
+            var user = await objuser.GetUserData(userId);
             return user;
         }
 
@@ -87,10 +86,10 @@ namespace InformationApp.Data
 
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-           objuser.UpdateUser(user);
+           cancellationToken.ThrowIfCancellationRequested();
+           var result = await objuser.UpdateUserUserStore(user);
 
-            return IdentityResult.Success;
+            return result;
     }
 
     public Task SetEmailAsync(ApplicationUser user, string email, CancellationToken cancellationToken)
@@ -118,8 +117,7 @@ namespace InformationApp.Data
     public async Task<ApplicationUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            ApplicationUser user = new ApplicationUser();
-            user = objuser.GetUserDataByemail(normalizedEmail);
+            var user = await objuser.GetUserDataByemail(normalizedEmail);
             return user;
 
         }
@@ -189,7 +187,7 @@ namespace InformationApp.Data
             cancellationToken.ThrowIfCancellationRequested();
             role.RoleName = roleName;
             role.UserId = user.ID;
-            var result = await objRole.AddRole(role);
+            await objRole.AddRole(role);
 
         }
 
@@ -198,24 +196,24 @@ namespace InformationApp.Data
             cancellationToken.ThrowIfCancellationRequested();
             role.RoleName = roleName;
             role.UserId = user.ID;
-            objRole.DeleteRole(role);
+            await objRole.DeleteRole(role);
         }
 
         public async Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             role.UserId = user.ID;
-            var listOfRoles = objRole.GetAllUserRole(role);
+            var listOfRoles = await objRole.GetAllUserRole(role);
 
-            return listOfRoles.ToList();
+            return listOfRoles;
         }
 
         public async Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var listOfUsers = objRole.GetUsersInRole(roleName);
+            var listOfUsers = await objRole.GetUsersInRole(roleName);
 
-            return listOfUsers.ToList();
+            return listOfUsers;
         }
 
         public async Task<bool> IsInRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
@@ -223,7 +221,7 @@ namespace InformationApp.Data
             cancellationToken.ThrowIfCancellationRequested();
             role.RoleName = roleName;
             role.UserId = user.ID;
-            var result = objRole.GetIsInRole(role);
+            var result = await objRole.GetIsInRole(role);
             return result;
         }
 
@@ -231,9 +229,7 @@ namespace InformationApp.Data
         public async Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
-            ApplicationUser user = new ApplicationUser();
-            user = objuser.GetUserDataByName(normalizedUserName);
+            var user = await objuser.GetUserDataByName(normalizedUserName);
             return user;
         }
 

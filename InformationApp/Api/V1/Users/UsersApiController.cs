@@ -16,10 +16,9 @@ namespace InformationApp.Api.V1.Users
         private List<ApplicationUser> _users;
 
         [HttpGet(ApiRoutes.Users.GetUsersList)]
-        public ApplicationUser GetAllUsers() {
+        public ApplicationUser GetAllUsers() {  
 
             ApplicationUser users = new ApplicationUser();
-
             users.Email = "It works"; 
             return users;
         }
